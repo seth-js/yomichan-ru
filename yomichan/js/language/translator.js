@@ -328,28 +328,13 @@ class Translator {
                 for (const flect of filteredFlections) {
                     const {databaseEntries} = flect;
 
-                    let hasVerbs = false;
-
                     databaseEntries.forEach(ent => {
                         const {definitionTags}  = ent;
 
                         if (definitionTags.includes('non-lemma')) ent.skip = true;
-                        if (definitionTags.includes('verb')) hasVerbs = true;
                     });
 
                     reasons.forEach(reason => {
-                        if (hasVerbs) {
-                            if (/\s/.test(reason)) {
-                                reason = 
-                                         reason.split(/\s/)[0].split('/')
-                                         .filter(reas => !/masculine|feminine|neuter/
-                                         .test(reas)).join('/') + ` ${reason.split(/\s/)[1]}`;
-                            }
-                            else
-                                reason = reason.split('/')
-                                .filter(reas => !/masculine|feminine|neuter/
-                                .test(reas)).join('/');
-                        }
                         flect.reasons.push(reason);
                     });
 
